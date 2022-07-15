@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const Form = () => {
+export const Form = ({ setPatients }) => {
   const [patient, setPatient] = useState({
     name: '',
     owner: '',
@@ -17,6 +17,10 @@ export const Form = () => {
     setPatient({ ...patient, [e.target.name]: e.target.value });
   };
 
+  const resetForm = () => {
+    setPatient({ name: '', owner: '', email: '', discharge: '', symptoms: '' });
+  };
+
   const handleSubmit = (e) => {
     setError(false);
     e.preventDefault();
@@ -24,6 +28,8 @@ export const Form = () => {
     if (Object.values(patient).includes('')) {
       return setError(true);
     }
+    setPatients((prev) => [patient, ...prev]);
+    resetForm();
   };
 
   return (
