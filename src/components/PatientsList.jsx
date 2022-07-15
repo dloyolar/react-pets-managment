@@ -1,20 +1,28 @@
 import { Patient } from './Patient';
 
-export const PatientsList = () => {
+export const PatientsList = ({ patients }) => {
   return (
     <div className="md:w-1/2 lg:w-3/5 md:h-screen overflow-y-scroll">
       <h2 className="font-black text-3xl text-center">Patient's List</h2>
-      <p className="text-xl mt-5 mb-10 text-center">
-        Manage your{' '}
-        <span className="text-indigo-600 font-bold">
-          Patients and Appointments
-        </span>
-      </p>
+      {patients && patients.length ? (
+        <>
+          <p className="text-xl mt-5 mb-10 text-center">
+            Manage your{' '}
+            <span className="text-indigo-600 font-bold">
+              Patients and Appointments
+            </span>
+          </p>
 
-      <Patient />
-      <Patient />
-      <Patient />
-      <Patient />
+          {patients.map((patient) => (
+            <Patient key={patient.id} patient={patient} />
+          ))}
+        </>
+      ) : (
+        <p className="text-xl mt-5 mb-10 text-center">
+          Add patients and{' '}
+          <span className="text-indigo-600 font-bold">Manage them</span>
+        </p>
+      )}
     </div>
   );
 };

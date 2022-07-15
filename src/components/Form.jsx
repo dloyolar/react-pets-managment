@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Error } from './Error';
 
 export const Form = ({ setPatients }) => {
   const [patient, setPatient] = useState({
@@ -7,7 +8,12 @@ export const Form = ({ setPatients }) => {
     email: '',
     discharge: '',
     symptoms: '',
+    id: '',
   });
+
+  const generateRandom = () => {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  };
 
   const [error, setError] = useState(false);
 
@@ -18,17 +24,34 @@ export const Form = ({ setPatients }) => {
   };
 
   const resetForm = () => {
-    setPatient({ name: '', owner: '', email: '', discharge: '', symptoms: '' });
+    setPatient({
+      name: '',
+      owner: '',
+      email: '',
+      discharge: '',
+      symptoms: '',
+      id: '',
+    });
   };
 
   const handleSubmit = (e) => {
     setError(false);
     e.preventDefault();
 
-    if (Object.values(patient).includes('')) {
+    const newPatient = {
+      name,
+      owner,
+      email,
+      discharge,
+      symptoms,
+      id: generateRandom(),
+    };
+
+    if (Object.values(newPatient).includes('')) {
       return setError(true);
     }
-    setPatients((prev) => [patient, ...prev]);
+
+    setPatients((prev) => [newPatient, ...prev]);
     resetForm();
   };
 
@@ -44,11 +67,7 @@ export const Form = ({ setPatients }) => {
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded-lg py-10 px-5 mb-10"
       >
-        {error && (
-          <div className="bg-red-800 text-white text-center p-3 uppercase font-bold mb-3 rounded-lg">
-            <p>Error, form incomplete</p>
-          </div>
-        )}
+        {error && <Error msg={'Error! Form incomplete'} />}
         <div className="mb-5">
           <label
             htmlFor="pet"
