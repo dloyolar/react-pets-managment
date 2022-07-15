@@ -1,4 +1,31 @@
+import { useState } from 'react';
+
 export const Form = () => {
+  const [patient, setPatient] = useState({
+    name: '',
+    owner: '',
+    email: '',
+    discharge: '',
+    symptoms: '',
+  });
+
+  const [error, setError] = useState(false);
+
+  const { name, owner, email, discharge, symptoms } = patient;
+
+  const handleChange = (e) => {
+    setPatient({ ...patient, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    setError(false);
+    e.preventDefault();
+
+    if (Object.values(patient).includes('')) {
+      return setError(true);
+    }
+  };
+
   return (
     <div className="md:w-1/2 lg:w-2/5">
       <h2 className="font-black text-3xl text-center">Patient Follow-UP</h2>
@@ -7,19 +34,30 @@ export const Form = () => {
         <span className="text-indigo-600 font-bold">MANAGE THEM</span>
       </p>
 
-      <form className="bg-white shadow-md rounded-lg py-10 px-5 mb-10">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-md rounded-lg py-10 px-5 mb-10"
+      >
+        {error && (
+          <div className="bg-red-800 text-white text-center p-3 uppercase font-bold mb-3 rounded-lg">
+            <p>Error, form incomplete</p>
+          </div>
+        )}
         <div className="mb-5">
           <label
             htmlFor="pet"
             className="block text-gray-700 uppercase font-bold"
           >
-            Pet Name
+            Pet Name {name}
           </label>
           <input
             id="pet"
             type="text"
             placeholder="Pet name"
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+            name="name"
+            value={name}
+            onChange={handleChange}
           />
         </div>
         <div className="mb-5">
@@ -34,6 +72,9 @@ export const Form = () => {
             type="text"
             placeholder="Owner name"
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+            name="owner"
+            value={owner}
+            onChange={handleChange}
           />
         </div>
         <div className="mb-5">
@@ -48,6 +89,9 @@ export const Form = () => {
             type="email"
             placeholder="email@mail.com"
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+            name="email"
+            value={email}
+            onChange={handleChange}
           />
         </div>
         <div className="mb-5">
@@ -61,6 +105,9 @@ export const Form = () => {
             id="discharge"
             type="date"
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+            name="discharge"
+            value={discharge}
+            onChange={handleChange}
           />
         </div>
         <div className="mb-5">
@@ -74,6 +121,9 @@ export const Form = () => {
             id="symptoms"
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
             placeholder="Describe the symptoms"
+            name="symptoms"
+            value={symptoms}
+            onChange={handleChange}
           />
         </div>
 
