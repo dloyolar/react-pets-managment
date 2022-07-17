@@ -13,3 +13,11 @@ yarn
 ```bash
 yarn dev
 ```
+
+## Tech
+
+This project used:
+
+- React
+- Tailwind
+- Vite
