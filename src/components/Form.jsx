@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Error } from './Error';
 
-export const Form = ({ setPatients, patientSelected }) => {
+export const Form = ({
+  patients,
+  setPatients,
+  patientSelected,
+  handlePatientSelected,
+}) => {
   const [patient, setPatient] = useState({
     name: '',
     owner: '',
@@ -50,14 +55,24 @@ export const Form = ({ setPatients, patientSelected }) => {
       email,
       discharge,
       symptoms,
-      id: generateRandom(),
     };
+
+    if (patientSelected.id) {
+      newPatient.id = patientSelected.id;
+      const patientsUpdate = patients.map((pat) =>
+        pat.id === newPatient.id ? newPatient : pat
+      );
+      setPatients(patientsUpdate);
+      handlePatientSelected({});
+    } else {
+      newPatient.id = generateRandom();
+      setPatients((prev) => [newPatient, ...prev]);
+    }
 
     if (Object.values(newPatient).includes('')) {
       return setError(true);
     }
 
-    setPatients((prev) => [newPatient, ...prev]);
     resetForm();
   };
 
