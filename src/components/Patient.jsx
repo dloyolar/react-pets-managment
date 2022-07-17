@@ -1,5 +1,12 @@
-export const Patient = ({ patient, setPatient }) => {
-  const { name, owner, email, discharge, symptoms } = patient;
+export const Patient = ({ patient, setPatient, deletePatient }) => {
+  const { name, owner, email, discharge, symptoms, id } = patient;
+
+  const handleDelete = () => {
+    const answer = confirm(`Delete patient ${name}?`);
+    if (answer) {
+      deletePatient(id);
+    }
+  };
   return (
     <div className="m-3 bg-white shadow-md px-5 py-10 rounded-xl">
       <p className="font-bold mb-3 text-gray-700 uppercase">
@@ -29,6 +36,7 @@ export const Patient = ({ patient, setPatient }) => {
         <button
           className="py-2 px-10 bg-red-600 hover:bg-red-700 text-white font-bold uppercase rounded-lg"
           type="button"
+          onClick={handleDelete}
         >
           Delete
         </button>
