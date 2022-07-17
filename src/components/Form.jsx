@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Error } from './Error';
 
-export const Form = ({ setPatients }) => {
+export const Form = ({ setPatients, patientSelected }) => {
   const [patient, setPatient] = useState({
     name: '',
     owner: '',
@@ -16,6 +16,12 @@ export const Form = ({ setPatients }) => {
   };
 
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (Object.keys(patientSelected).length > 0) {
+      setPatient(patientSelected);
+    }
+  }, [patientSelected]);
 
   const { name, owner, email, discharge, symptoms } = patient;
 
@@ -155,7 +161,7 @@ export const Form = ({ setPatients }) => {
         <input
           type="submit"
           className="bg-indigo-600 w-full p-3 text-white font-bold uppercase rounded-lg hover:bg-indigo-700 cursor-pointer transition-colors"
-          value="Add patient"
+          value={patientSelected.id ? 'Update patient' : 'Add patient'}
         />
       </form>
     </div>
