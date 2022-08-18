@@ -57,6 +57,10 @@ export const Form = ({
       symptoms,
     };
 
+    if (Object.values(newPatient).includes('')) {
+      return setError(true);
+    }
+
     if (patientSelected.id) {
       newPatient.id = patientSelected.id;
       const patientsUpdate = patients.map((pat) =>
@@ -67,10 +71,6 @@ export const Form = ({
     } else {
       newPatient.id = generateRandom();
       setPatients((prev) => [newPatient, ...prev]);
-    }
-
-    if (Object.values(newPatient).includes('')) {
-      return setError(true);
     }
 
     resetForm();
